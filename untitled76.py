@@ -1,7 +1,7 @@
 
 import pymongo
 
-# importacion de la funciones de equipo
+# importacion de las funciones de equipo
 from funciones import ingresar_equipo_manual
 from funciones import ingresar_equipo_automatico
 from funciones import actualizar_equipo
@@ -9,6 +9,13 @@ from funciones import buscar_equipo
 from funciones import ver_equipos
 from funciones import eliminar_equipo
 
+
+# importacion de las funciones de responsables
+from funciones import ingresar_responsable_manual
+from funciones import ver_responsables
+from funciones import actualizar_responsable
+from funciones import eliminar_responsable
+from funciones import buscar_responsable
 
  
 client = pymongo.MongoClient("mongodb+srv://informatica1:bio123@cluster0.wj4huqm.mongodb.net/?retryWrites=true&w=majority")
@@ -36,94 +43,7 @@ def validar_numero(valor):
 
 
 
-def ingresar_responsable_manual():
-    codigo_responsable = input("Ingrese el código del responsable: ")
-    nombre = input("Ingrese el nombre del responsable: ")
-    apellido = input("Ingrese el apellido del responsable: ")
-    documento_identidad = input("Ingrese el número del documento de identidad: ")
-    cargo = input("Ingrese el cargo: ")
-    
-    responsable = {
-        "codigo_responsable": int(codigo_responsable),
-        "nombre": nombre,
-        "apellido": apellido,
-        "documento_identidad": int(documento_identidad),
-        "cargo": cargo
-    }
-    
-    responsables_collection.insert_one(responsable)
-    print("Responsable ingresado exitosamente.")
 
-
-def ver_responsables():
-    responsables = responsables_collection.find()
-    
-    print("Responsables almacenados:")
-    
-    for responsable in responsables:
-        print(f"Código responsable: {responsable['codigo_responsable']}")
-        print(f"Nombre: {responsable['nombre']}")
-        print(f"Apellido: {responsable['apellido']}")
-        print(f"Número de documento de identidad: {responsable['documento_identidad']}")
-        print(f"Cargo: {responsable['cargo']}")
-        print("")
-
-
-def actualizar_responsable():
-
-    codigo_responsable = input("Ingrese el código del responsable a actualizar: ")
-    
-    responsable = responsables_collection.find_one({"codigo_responsable": int(codigo_responsable)})
-    
-    if responsable:
-        nombre = input("Ingrese el nuevo nombre del responsable: ")
-        apellido = input("Ingrese el nuevo apellido del responsable: ")
-        documento_identidad = input("Ingrese el nuevo número del documento de identidad: ")
-        cargo = input("Ingrese el nuevo cargo: ")
-        
-        responsables_collection.update_one(
-            {"codigo_responsable": int(codigo_responsable)},
-            {
-                "$set": {
-                    "nombre": nombre,
-                    "apellido": apellido,
-                    "documento_identidad": int(documento_identidad),
-                    "cargo": cargo
-                }
-            }
-        )
-        
-        print("Responsable actualizado exitosamente.")
-    else:
-        print("Responsable no encontrado.")
-
-
-def buscar_responsable():
-    codigo_responsable = input("Ingrese el código del responsable a buscar: ")
-    
-    responsable = responsables_collection.find_one({"codigo_responsable": int(codigo_responsable)})
-    
-    if responsable:
-        print("Responsable encontrado:")
-        print(f"Código responsable: {responsable['codigo_responsable']}")
-        print(f"Nombre: {responsable['nombre']}")
-        print(f"Apellido: {responsable['apellido']}")
-        print(f"Número de documento de identidad: {responsable['documento_identidad']}")
-        print(f"Cargo: {responsable['cargo']}")
-    else:
-        print("Responsable no encontrado.")
-
-
-def eliminar_responsable():
-    codigo_responsable = input("Ingrese el código del responsable a eliminar: ")
-    
-    responsable = responsables_collection.find_one({"codigo_responsable": int(codigo_responsable)})
-    
-    if responsable:
-        responsables_collection.delete_one({"codigo_responsable": int(codigo_responsable)})
-        print("Responsable eliminado exitosamente.")
-    else:
-        print("Responsable no encontrado.")
 
 
 def ingresar_ubicacion_manual():

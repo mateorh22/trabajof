@@ -152,7 +152,7 @@ def eliminar_equipo():
 
 
 
-#funciones de informacion para los responsables 
+# funciones de informacion para los responsables 
 
 def ingresar_responsable_manual():
     codigo_responsable = input("Ingrese el código del responsable: ")
