@@ -1,154 +1,37 @@
 
 import pymongo
 
+# importacion de la funciones de equipo
+from funciones import ingresar_equipo_manual
+from funciones import ingresar_equipo_automatico
+from funciones import actualizar_equipo
+from funciones import buscar_equipo
+from funciones import ver_equipos
+from funciones import eliminar_equipo
+
+
+ 
 client = pymongo.MongoClient("mongodb+srv://informatica1:bio123@cluster0.wj4huqm.mongodb.net/?retryWrites=true&w=majority")
 
-#otro cambio
-#otro cambio mas para probar
 
 database = client["informatica1"]
 equipos_collection = database["equipos"]
 responsables_collection = database["responsables"]
 ubicaciones_collection = database["ubicaciones"]
 
+
 def validar_numero(valor):
- 
- while True:
-
-    try:
-      
-      return int(valor)
+  try:
     
-    except ValueError:
-      
-      print("Error: debe ingresar un numero. ")
-      return None
+    return int(valor)
+
+  except ValueError:
+    print("Error: debe ingresar solo numero ")
+
+    return None
 
 
 
-def ingresar_equipo_manual():
-  print("Ingresar nuevo equipo de forma manual ")
-  serial = input("Serial: ")
-  numero_activo = validar_numero(input("Numero de activo: "))
-  nombre_equipo = input("Nombre del equipo: ")
-  marca = input("Marca: ")
-  codigo_ubicacion = validar_numero(input("Codigo de ubicacion: "))
-  codigo_responsable = validar_numero(input("codigo responsable: "))
-
-  if serial and numero_activo and nombre_equipo and marca and codigo_ubicacion and codigo_responsable:
-    equipo = {
-        "serial": serial,
-        "numero_activo": numero_activo,
-        "nombre_equipo": nombre_equipo,
-        "marca":marca,
-        "codigo_ubicacion": codigo_ubicacion,
-        "codigo_responsable": codigo_responsable
-         
-    }
-    equipos_collection.insert_one(equipo)
-    print("Equipo ingresado extosamente")
-
-  else:
-    print("Error: faltan datos requeridos. ")
-
-
-
-def ingresar_equipo_automatico():
-    filename = input("Ingrese el nombre del archivo CSV: ")
-    
-    with open(filename, "r", sep=';') as file:
-        data = file.read()
-            
-        equipo = {
-                "serial": data[0],
-                "numero_activo": int(data[1]),
-                "nombre_equipo": data[2],
-                "marca": data[3],
-                "codigo_ubicacion": int(data[4]),
-                "codigo_responsable": int(data[5])
-            }
-            
-        equipos_collection.insert_one(equipo)
-    
-    print("Equipos ingresados exitosamente.")
-
-
-def actualizar_equipo():
-  numero_activo = input("Ingrese el numero de activo del equipo que quiere actualizar ")
-
-  equipo = equipos_collection.find_one({"numero_activo": int(numero_activo)})
-
-  if equipo :
-    nuevo_serial = input("Ingrese el nuevo serial: ")
-    nuevo_nombre_equipo = input("Ingrese el nuevo nombre del equipo: ")
-    nueva_marca = input("INgrese la nueva marca: ")
-    nuevo_codigo_ubicacion = (input("Ingrese el nuevo codigo de ubicacion: "))
-    nuevo_codigo_responsable = input("Ingrese el nuevo codigo de responsable: ")
-
-
-
-    equipos_collection.update_one(
-        {"numero_activo": int(numero_activo)},
-        {"$set":{"serial": nuevo_serial,
-                "nombre": nuevo_nombre_equipo,
-                "marca": nueva_marca,
-                "codigo_ubicacion": int(nuevo_codigo_ubicacion),
-                "codigo_responsable": int(nuevo_codigo_responsable)}
-        }
-    )
-
-
-    print("Equipo actualizado exitosamente. ")
-
-  else:
-    print("Equipo no encontrado")
-
-
-
-def buscar_equipo():
-  numero_activo = input("Ingrese el numero de activo dek equipo a buscar: ")
-  
-  equipo = equipos_collection.find_one({"numero_activo": int(numero_activo)})
-
-  if equipo:
-    print("Equipo encontrado: ")
-    print(f"serial:{equipo['serial']}")
-    print(f"numero de activo: {equipo['numero_activo']}")
-    print(f"nombre del equipo: {equipo['nombre_equipo']}")
-    print(f"marca:{equipo['marca']}")
-    print(f"codigo de ubicacion: {equipo['codigo_ubicacion']}")
-    print(f"codigo de responsable: {equipo['codigo_responsable']}")
-
-  else:
-    print("Equipo no encontrado.")
-
-
-
-def ver_equipos():
-  equipos = equipos_collection.find()
-
-  print("Equipos almacenados: ")
-
-  for equipo in equipos:
-    print(f"serial: {equipo['serial']}")
-    print(f"numero de activo: {equipo['numero_activo']}")
-    print(f"nombre del equipo: {equipo['nombre_equipo']}")
-    print(f"marca:{equipo['marca']}")
-    print(f"codigo de ubicacion: {equipo['codigo_ubicacion']}")
-    print(f"codigo de responsable: {equipo['codigo_responsable']}")
-    print("")
-
-def eliminar_equipo():
-  numero_activo = input("Ingrese el numero de activo del equipo que quiere eliminar: ")
-
-  equipo = equipos_collection.find_one({"numero_activo":int(numero_activo)})
-
-  if equipo:
-    equipos_collection.delete_one({"numero_activo": int(numero_activo)})
-    print("Equipo eliminado exitosamente")
-
-  else:
-    print("Equipo no encontrado.")
 
 
 
@@ -333,7 +216,7 @@ def menu_principal():
     print("3. Gestionar infromacion de ubicacion ")
     print("4. Salir")
 
-    opcion =  input("Seleccione una opcion \n")
+    opcion =  input("Seleccione una opcion:  ")
 
     if opcion =="1":
       menu_equipos()
@@ -358,7 +241,7 @@ def menu_equipos():
     print("6. Eliminar un equipos ")
     print("7. Salir")
 
-    opcion = input("Seleccione una opcion")
+    opcion = input("Seleccione una opcion: ")
 
     if opcion == "1":
       ingresar_equipo_manual()
@@ -393,7 +276,7 @@ def menu_responsables():
     print("4. Eliminar un responsable")
     print("5. Volver al menu principal")
 
-    opcion = input("Seleccione una opcion :")
+    opcion = input("Seleccione una opcion: ")
 
     if opcion == "1":
       ingresar_responsable_manual()
@@ -429,7 +312,7 @@ def menu_ubicaciones():
     print("5. Volveral menú principal")
 
 
-    opcion = input("Seleccione una opcion ")
+    opcion = input("Seleccione una opcion:  ")
 
     if opcion == "1":
       ingresar_ubicacion_manual()
