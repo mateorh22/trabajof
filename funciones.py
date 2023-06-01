@@ -24,7 +24,7 @@ def validar_numero(valor):
 
 
 
-# funciones de manejo de equipo
+# funciones de equipo
 
 def ingresar_equipo_manual():
   print("Ingresar nuevo equipo de forma manual ")
