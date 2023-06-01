@@ -1,7 +1,7 @@
 
 import pymongo
 
-# importacion de la funciones de equipo
+#importacion de la funciones de equipo
 from funciones import ingresar_equipo_manual
 from funciones import ingresar_equipo_automatico
 from funciones import actualizar_equipo
