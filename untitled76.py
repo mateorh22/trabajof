@@ -55,13 +55,10 @@ def ingresar_equipo_manual():
 def ingresar_equipo_automatico():
     filename = input("Ingrese el nombre del archivo CSV: ")
     
-    with open(filename, "r") as file:
-        lines = file.read()
-        
-        for line in lines:
-            data = line.strip().split(",")
+    with open(filename, "r", sep=';') as file:
+        data = file.read()
             
-            equipo = {
+        equipo = {
                 "serial": data[0],
                 "numero_activo": int(data[1]),
                 "nombre_equipo": data[2],
@@ -70,7 +67,7 @@ def ingresar_equipo_automatico():
                 "codigo_responsable": int(data[5])
             }
             
-            equipos_collection.insert_one(equipo)
+        equipos_collection.insert_one(equipo)
     
     print("Equipos ingresados exitosamente.")
 
