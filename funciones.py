@@ -243,3 +243,82 @@ def eliminar_responsable():
     else:
         print("Responsable no encontrado.")
 
+# funciones ingreso de informacion ubicacion
+
+def ingresar_ubicacion_manual():
+    codigo_ubicacion = input("Ingrese el código de la ubicación: ")
+    nombre = input("Ingrese el nombre de la ubicación: ")
+    piso = input("Ingrese el número del piso: ")
+    telefono = input("Ingrese el numero del telefono")
+    
+    ubicacion = {
+        "codigo_ubicacion": int(codigo_ubicacion),
+        "nombre": nombre,
+        "piso": int(piso),
+        "telefono": int(telefono)
+    }
+    
+    ubicaciones_collection.insert_one(ubicacion)
+    print("Ubicación ingresada exitosamente.")
+
+
+def ver_ubicaciones():
+    ubicaciones = ubicaciones_collection.find()
+    
+    print("Ubicaciones almacenadas:")
+    
+    for ubicacion in ubicaciones:
+        print(f"Código de ubicación: {ubicacion['codigo_ubicacion']}")
+        print(f"Nombre: {ubicacion['nombre']}")
+        print(f"Piso: {ubicacion['piso']}")
+        print("")
+
+def actualizar_ubicacion():
+    codigo_ubicacion = input("Ingrese el código de la ubicación a actualizar: ")
+    
+    ubicacion = ubicaciones_collection.find_one({"codigo_ubicacion": int(codigo_ubicacion)})
+    
+    if ubicacion:
+        nombre = input("Ingrese el nuevo nombre de la ubicación: ")
+        piso = input("Ingrese el nuevo número de piso: ")
+        
+        ubicaciones_collection.update_one(
+            {"codigo_ubicacion": int(codigo_ubicacion)},
+            {
+                "$set": {
+                    "nombre": nombre,
+                    "piso": int(piso)
+                }
+            }
+        )
+        
+        print("Ubicación actualizada exitosamente.")
+    else:
+        print("Ubicación no encontrada.")
+
+
+def buscar_ubicacion():
+    codigo_ubicacion = input("Ingrese el código de la ubicación a buscar: ")
+    
+    ubicacion = ubicaciones_collection.find_one({"codigo_ubicacion": int(codigo_ubicacion)})
+    
+    if ubicacion:
+        print("Ubicación encontrada:")
+        print(f"Código de ubicación: {ubicacion['codigo_ubicacion']}")
+        print(f"Nombre: {ubicacion['nombre']}")
+        print(f"Piso: {ubicacion['piso']}")
+    else:
+        print("Ubicación no encontrada.")
+
+
+def eliminar_ubicacion():
+    codigo_ubicacion = input("Ingrese el código de la ubicación a eliminar: ")
+    
+    ubicacion = ubicaciones_collection.find_one({"codigo_ubicacion": int(codigo_ubicacion)})
+    
+    if ubicacion:
+        ubicaciones_collection.delete_one({"codigo_ubicacion": int(codigo_ubicacion)})
+        print("Ubicación eliminada exitosamente.")
+    else:
+        print("Ubicación no encontrada.")
+
