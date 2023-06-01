@@ -243,7 +243,7 @@ def eliminar_responsable():
     else:
         print("Responsable no encontrado.")
 
-# funciones ingreso de informacion ubicacion
+# funciones ingreso de informacion ubicación
 
 def ingresar_ubicacion_manual():
     codigo_ubicacion = input("Ingrese el código de la ubicación: ")
