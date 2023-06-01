@@ -4,6 +4,7 @@ import pymongo
 client = pymongo.MongoClient("mongodb+srv://informatica1:bio123@cluster0.wj4huqm.mongodb.net/?retryWrites=true&w=majority")
 
 #otro cambio
+#otro cambio mas
 
 database = client["informatica1"]
 equipos_collection = database["equipos"]
