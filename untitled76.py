@@ -144,38 +144,36 @@ def menu_responsables():
 
 
 
-
-
 def menu_ubicaciones():
   while True:
-    print("------Menú gestion de ubcacion------")
-    print("1. Ingresar una nueva ubicacion")
-    print("2. Ver la la informacio de todas las ubicaciones almacenadas ")
-    print("3- Actualizar la informacion de una ubicacion ")
-    print("4. Eliminar una ubicacion ")
-    print("5. Volveral menú principal")
+    print("-----Menú gestion de ubicación-------")
+    print("1. Ingrese una ubicaion ")
+    print("2. Ver la informacion de todas la ubicaciones almacenadas ")
+    print("3. Actualizar la informacion de una ubicacion ")
+    print("4. Eliminar una ubicaion ")
+    print("5. Volver al menú principal ")
 
+    opcion = input("seleccione una opcion")
 
-    opcion = input("Seleccione una opcion:  ")
-
-    if opcion == "1":
+    if opcion =="1":
       ingresar_ubicacion_manual()
 
-    elif opcion =="2":
+    elif opcion == "2":
       ver_ubicaciones()
 
-    elif opcion == "3":
+    elif opcion =="3":
       actualizar_ubicacion()
 
     elif opcion == "4":
-      eliminar_ubicacion()
-    
+      eliminar_ubicacion
+
     elif opcion == "5":
       break
 
-    else :
-      print("Error. opcion invalida seleccione otra opcion")
+    else:
+      print("Error. opcion invalida seleccione otra")
 
 
 menu_principal()
+
 
