@@ -1,5 +1,7 @@
 
 import pymongo
+import csv
+
 
 # importacion de las funciones de equipo
 from funciones import ingresar_equipo_manual
@@ -25,6 +27,7 @@ from funciones import ver_ubicaciones
 from funciones import actualizar_ubicacion
 from funciones import buscar_ubicacion
 from funciones import eliminar_ubicacion
+
 
 
 

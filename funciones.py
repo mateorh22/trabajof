@@ -1,6 +1,6 @@
 
 import pymongo
-
+import csv
 
 client = pymongo.MongoClient("mongodb+srv://informatica1:bio123@cluster0.wj4huqm.mongodb.net/?retryWrites=true&w=majority")
 
@@ -28,16 +28,16 @@ def validar_numero(valor):
 
 def ingresar_equipo_manual():
   print("Ingresar nuevo equipo de forma manual ")
-  serial = input("Serial: ")
+  serie = input("Serial: ")
   numero_activo = validar_numero(input("Numero de activo: "))
   nombre_equipo = input("Nombre del equipo: ")
   marca = input("Marca: ")
   codigo_ubicacion = validar_numero(input("Codigo de ubicacion: "))
   codigo_responsable = validar_numero(input("codigo responsable: "))
 
-  if serial and numero_activo and nombre_equipo and marca and codigo_ubicacion and codigo_responsable:
+  if serie and numero_activo and nombre_equipo and marca and codigo_ubicacion and codigo_responsable:
     equipo = {
-        "serial": serial,
+        "serial": serie,
         "numero_activo": numero_activo,
         "nombre_equipo": nombre_equipo,
         "marca":marca,
@@ -53,24 +53,51 @@ def ingresar_equipo_manual():
 
 
 
+
+
 def ingresar_equipo_automatico():
-    filename = input("Ingrese el nombre del archivo CSV: ")
-    
-    with open(filename, "r", sep=';') as file:
-        data = file.read()
-            
-        equipo = {
-                "serial": data[0],
-                "numero_activo": int(data[1]),
-                "nombre_equipo": data[2],
-                "marca": data[3],
-                "codigo_ubicacion": int(data[4]),
-                "codigo_responsable": int(data[5])
-            }
-            
-        equipos_collection.insert_one(equipo)
-    
-    print("Equipos ingresados exitosamente.")
+    archivo_csv = "InventarioIPS.csv"  # Nombre del archivo CSV
+
+    try:
+        with open(archivo_csv, newline='', encoding='utf-8-sig') as csv_file:
+            equipos_csv = csv.DictReader(csv_file)
+
+            for equipo in equipos_csv:
+                equipo_db = {
+                    "serial": equipo.get("Serial"),
+                    "numero_activo": int(equipo.get("Número de activo", 0)),
+                    "nombre": equipo.get("Nombre del equipo"),
+                    "marca": equipo.get("Marca"),
+                    "codigo_ubicacion": int(equipo.get("Código de ubicación", 0)),
+                    "codigo_responsable": int(equipo.get("Código responsable", 0))
+                }
+
+                print("Equipo a ingresar:")
+                print(equipo_db)
+                print()
+
+                # Solicitar confirmación al usuario para ingresar el equipo
+                confirmacion = input("¿Desea ingresar este equipo? (S/N): ")
+
+                if confirmacion.lower() == "s":
+                    # Ingresar el equipo en MongoDB
+                    equipos_collection.insert_one(equipo_db)
+                    print("Equipo ingresado exitosamente.")
+                    break
+                else:
+                    print("Equipo no ingresado.")
+
+                print("----------------------------------------------")
+
+            print("Proceso de ingreso automático finalizado.")
+    except FileNotFoundError:
+        print("El archivo CSV no fue encontrado.")
+    except Exception as e:
+        print(f"Error al leer el archivo CSV: {str(e)}")
+
+
+
+
 
 
 def actualizar_equipo():
@@ -249,7 +276,7 @@ def ingresar_ubicacion_manual():
     codigo_ubicacion = input("Ingrese el código de la ubicación: ")
     nombre = input("Ingrese el nombre de la ubicación: ")
     piso = input("Ingrese el número del piso: ")
-    telefono = input("Ingrese el numero del telefono")
+    telefono = input("Ingrese el numero del telefono: ")
     
     ubicacion = {
         "codigo_ubicacion": int(codigo_ubicacion),
