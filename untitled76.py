@@ -174,6 +174,7 @@ def menu_ubicaciones():
       print("Error. opcion invalida seleccione otra")
 
 
+
 menu_principal()
 
 
